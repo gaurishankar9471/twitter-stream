@@ -25,6 +25,8 @@ module.exports = (app, io) => {
         twitter.stream('statuses/filter', { track: app.locals.searchTerm }, (stream) => {
             stream.on('data', (tweet) => {
                 updateData(tweet);
+                console.log(tweet.text)
+
             });
 
             stream.on('error', (error) => {
@@ -40,12 +42,12 @@ module.exports = (app, io) => {
     //@route - GET /search
     //@desc - route to serach specific tweets
     //@access - PUBLIC
-    app.post('/search', (req, res) => {
-        let term = req.body.term;
-        app.locals.searchTerm = term;
-        twitterStream.destroy();
-        stream();
-    });
+    // app.post('/search', (req, res) => {
+    //     let term = req.body.term;
+    //     app.locals.searchTerm = term;
+    //     twitterStream.destroy();
+    //     stream();
+    // });
     
 
     
@@ -65,7 +67,6 @@ module.exports = (app, io) => {
             return;
         }
         socketConnection.emit("tweets", msg);
-        console.log(msg.text)
     }
 
 };
