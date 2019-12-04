@@ -1,4 +1,5 @@
 import React from 'react';
+import './css/CardUI.css'
 
 class CardUI extends React.Component {
     render() {
@@ -6,23 +7,13 @@ class CardUI extends React.Component {
 
         return (
             <div>
-                <div className="card-panel grey lighten-5 z-depth-3 hoverable thin">
-                    <div className="row valign-wrapper">
-                        <div className="col s2">
-                            <img src={data.user.profile_image_url} alt={data.user.name} className="circle responsive-img" />
-                        </div>
-                        <div className="col s10 left-align">
-                            <span className="black-text">{data.text}</span>
-                        </div>
-                        
-                    </div>
-                    <div className="row valign-wrapper right-align chip hoverable">
-                    {new Date(data.created_at).toLocaleTimeString()}
-                    </div>
-                    <div className="row valign-wrapper right-align chip hoverable">
-                        <a href={`https://twitter.com/${data.user.screen_name}`} target="_blank">{`@${data.user.screen_name}`}</a>
-                    </div>
-                </div>
+
+            <article className="article">
+            <img src={data.user.profile_image_url} alt={data.user.name} className="circle responsive-img" />
+            <h2 className="article__title"> <a href={`https://twitter.com/${data.user.screen_name}`} target="_blank">{`@${data.user.screen_name}`}</a> </h2>
+            <p className="article__excerpt">{data.text}</p>
+            </article>
+           
 
             </div>
         );

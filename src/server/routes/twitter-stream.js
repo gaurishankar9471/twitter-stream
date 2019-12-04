@@ -11,7 +11,7 @@ module.exports = (app, io) => {
         access_token_secret: "5LF5iWS3cZRU37nKYoGeZ63Y2hCkoK8LyiSPdtuZJuGoV"
     });
 
-    app.locals.searchTerm = 'JavaScript'; //Defaul search item for tweet stream
+    app.locals.searchTerm = 'java'; //Defaul search item for tweet stream
     app.locals.showRetweets = false; //Default Retweet 
 
 
@@ -40,14 +40,15 @@ module.exports = (app, io) => {
     //Resume Stream End
 
     //@route - GET /search
-    //@desc - route to serach specific tweets
+    // @desc - route to serach specific tweets
     //@access - PUBLIC
-    // app.post('/search', (req, res) => {
-    //     let term = req.body.term;
-    //     app.locals.searchTerm = term;
-    //     twitterStream.destroy();
-    //     stream();
-    // });
+    app.post('/search', (req, res) => {
+        let term = req.body.term;
+        console.log("Here is post" +term)
+        app.locals.searchTerm = term;
+        twitterStream.destroy();
+        stream();
+    });
     
 
     
@@ -62,11 +63,13 @@ module.exports = (app, io) => {
     });
 
 
+    //Update Tweets to Front End
     const updateData = (msg) => {
         if (msg.text.includes('RT')) {
             return;
         }
         socketConnection.emit("tweets", msg);
     }
+    //Update Tweets End
 
 };

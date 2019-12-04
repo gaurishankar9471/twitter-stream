@@ -1,21 +1,39 @@
-import React from 'react';
-import { CSSTransitionGroup } from 'react-transition-group';
+import React from "react";
+import { CSSTransitionGroup } from "react-transition-group";
 import socketIOClient from "socket.io-client";
-import CardUI from './CardUI';
-
-
+import CardUI from "./CardUI";
+import "./css/SearchBar.css";
+import "bulma";
 
 class TwitterStreamListView extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = { items: [], searchTerm: "WestBengal" };
+  constructor(props) {
+    super(props);
+    this.state = { items: [], searchTerm: "WestBengal" };
 
-    }
-  
+    this.handleChange = this.handleChange.bind(this);
+    this.serachTweets = this.serachTweets.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({ searchTerm: event.target.value });
+  }
+
+  serachTweets() {
+    let term = this.state.searchTerm;
+    console.log("Here 1" + term);
+    fetch("/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ term })
+    });
+  }
+
   componentDidMount() {
-    const socket = socketIOClient('http://localhost:3000/');
-  
-    socket.on('connect', () => {
+    const socket = socketIOClient("http://localhost:3000/");
+
+    socket.on("connect", () => {
       console.log("Socket Connected");
       socket.on("tweets", data => {
         console.info(data);
@@ -23,82 +41,64 @@ class TwitterStreamListView extends React.Component {
         this.setState({ items: newList });
       });
     });
-    socket.on('disconnect', () => {
-      socket.off("tweets")
+    socket.on("disconnect", () => {
+      socket.off("tweets");
       socket.removeAllListeners("tweets");
       console.log("Socket Disconnected");
     });
   }
-  
-  
-    render() {
-      let items = this.state.items;
-  
-      let itemsCards = <CSSTransitionGroup
+
+  render() {
+    let items = this.state.items;
+
+    let itemsCards = (
+      <CSSTransitionGroup
         transitionName="example"
         transitionEnterTimeout={500}
-        transitionLeaveTimeout={300}>
-        {items.map((x, i) =>
+        transitionLeaveTimeout={300}
+      >
+        {items.map((x, i) => (
           <CardUI key={i} data={x} />
-        )}
-      </CSSTransitionGroup>;
-  
-      let searchControls =
+        ))}
+      </CSSTransitionGroup>
+    );
+
+    return (
+      <div>
+        <div className="center">
+          <div className="container">
+            <hr />
+            <section className="section">
+              <form className="form" id="addItemForm">
+                <input
+                  type="text"
+                  className="input"
+                  id="addInput"
+                  placeholder="Enter any hashtag to stream"
+                  onChange={this.handleChange}
+                />
+                <button
+                  className="button is-info"
+                  onClick={this.serachTweets}
+                  type="button"
+                >
+                  Search
+                </button>
+              </form>
+            </section>
+          </div>
+        </div>
         <div>
-          <input id="email" type="text" className="validate" value={this.state.searchTerm} onKeyPress={this.handleKeyPress} onChange={this.handleChange} />
-          <label htmlFor="email">Search</label>
+          <div>{itemsCards}</div>
         </div>
-  
-      let filterControls = <div>
-        <a className="btn-floating btn-small waves-effect waves-light pink accent-2" style={controlStyle} onClick={this.handleResume}><i className="material-icons">play_arrow</i></a>
-        <a className="btn-floating btn-small waves-effect waves-light pink accent-2" onClick={this.handlePause} ><i className="material-icons">pause</i></a>
-        <p>
-          <input type="checkbox" id="test5" />
-          <label htmlFor="test5">Retweets</label>
-        </p>
+        <div className="col s12 m4 l4"></div>
       </div>
-  
-      let controls = <div>
-        {
-          items.length > 0 ? filterControls : null
-        }
-      </div>
-  
-      let loading = <div>
-        <p className="flow-text">Listening to Streams</p>
-        <div className="progress lime lighten-3">
-          <div className="indeterminate pink accent-1"></div>
-        </div>
-      </div>
-  
-      return (
-        <div className="row">
-          <div className="col s12 m4 l4">
-            <div className="input-field col s12">
-              {searchControls}
-              {
-                items.length > 0 ? controls : null
-              }
-            </div>
-          </div>
-          <div className="col s12 m4 l4">
-            <div>
-              {
-                items.length > 0 ? itemsCards : loading
-              }
-  
-            </div>
-  
-          </div>
-          <div className="col s12 m4 l4">
-          </div>
-        </div>
-      );
-    }
+    );
   }
-  
-  const controlStyle = {
-    marginRight: "5px"
-  };
-  
-  export default TwitterStreamListView;
+}
+
+const controlStyle = {
+  marginRight: "5px"
+};
+
+export default TwitterStreamListView;
