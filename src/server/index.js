@@ -1,7 +1,7 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const socketio = require('socket.io');
-const http = require('http');
+const express = require("express");
+const bodyParser = require("body-parser");
+const socketio = require("socket.io");
+const http = require("http");
 const port = process.env.PORT || 3001;
 const app = express();
 
@@ -15,16 +15,11 @@ app.use(bodyParser.json());
 
 //GET ALL ROUTES START
 
-require('./routes/twitter-stream')(app, io);
-
+require("./routes/twitter-stream")(app, io);
 
 //GET ALL ROUTES END
 
-app.get('/a', (req, res) =>{
-    res.send('I am working')
-})
-
-//Start server at 3001 PORT 
+//Start server at 3001 PORT
 server.listen(port, () => {
-    console.log('server is running at 3001 Port');
+  console.log("server is running at 3001 Port");
 });
