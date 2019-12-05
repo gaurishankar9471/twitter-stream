@@ -9,7 +9,7 @@ class TwitterAnalysis extends Component {
         let data = this.props.data;
         const fontSizeMapper = word => Math.log2(word.value) * 5;
         const rotate = word => word.value % 360;
-
+        console.log(data)
         const datas = [
             { text: 'Hey', value: 1000 },
             { text: 'lol', value: 200 },
