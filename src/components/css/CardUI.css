@@ -27,26 +27,64 @@ body {
     flex-basis: 50%;
     width: 50%;
   }
+  .article {
+    background: #fff;
+    margin: 10px 200px 50px;
+    padding: 20px;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
 }
 @media (max-width: 600px) {
   .column {
     flex-basis: 100%;
     width: 100%;
   }
+  .article {
+    background: #fff;
+    margin: 10px 200px 50px;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+}
+
+@media (max-width: 411px) {
+  .column {
+    flex-basis: 100%;
+    width: 100%;
+  }
+  .article {
+    background: #fff;
+    margin: 10px 200px 50px;
+    padding: 20px;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
 }
 
 /* Article (Component) */
 .article {
   background: #fff;
-  margin: 0 0 20px;
+  margin: 10px 80px 50px;
   padding: 20px;
-  border-radius: 2px;
+  border-radius: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: 0.3s ease;
 }
 .article:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.2);
+  -webkit-transform-origin: center;
+  transform-origin: center;
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 }
 .article:active {
   box-shadow: none;

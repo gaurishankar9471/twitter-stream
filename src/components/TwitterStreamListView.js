@@ -4,6 +4,8 @@ import socketIOClient from "socket.io-client";
 import CardUI from "./CardUI";
 import "./css/SearchBar.css";
 import "bulma";
+import "./css/loader.css"
+import "./css/TwitterStremListView.css";
 
 class TwitterStreamListView extends React.Component {
   constructor(props) {
@@ -31,6 +33,9 @@ class TwitterStreamListView extends React.Component {
   }
 
   componentDidMount() {
+    document.getElementById('p_bar').style.display='block';
+
+
     const socket = socketIOClient("http://localhost:3000/");
 
     socket.on("connect", () => {
@@ -39,9 +44,12 @@ class TwitterStreamListView extends React.Component {
         console.info(data);
         let newList = [data].concat(this.state.items.slice(0, 15));
         this.setState({ items: newList });
+        document.getElementById('p_bar').style.display='none';
+
       });
     });
     socket.on("disconnect", () => {
+      document.getElementById('p_bar').style.display='none';
       socket.off("tweets");
       socket.removeAllListeners("tweets");
       console.log("Socket Disconnected");
@@ -64,11 +72,14 @@ class TwitterStreamListView extends React.Component {
     );
 
     return (
-      <div>
+      <div id="top-cont" style={{backgroundColor: "#4C4B4B"}}>
         <div className="center">
-          <div className="container">
-            <hr />
-            <section className="section">
+
+
+
+        <div id="p_bar" class="loading">Loading&#00000;</div>
+        <h1 className="top-text">Welcome to Twitter Stream</h1>
+        <section className="section">
               <form className="form" id="addItemForm">
                 <input
                   type="text"
@@ -77,15 +88,22 @@ class TwitterStreamListView extends React.Component {
                   placeholder="Enter any hashtag to stream"
                   onChange={this.handleChange}
                 />
+                <div className="btn-search" >
                 <button
-                  className="button is-info"
-                  onClick={this.serachTweets}
-                  type="button"
-                >
-                  Search
-                </button>
+                className="button is-info"
+                onClick={this.serachTweets}
+                type="button"
+                  >
+                Search
+              </button>
+                </div>
+               
               </form>
             </section>
+          <div className="container">
+
+            <hr />
+            
           </div>
         </div>
         <div>
