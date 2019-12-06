@@ -4,14 +4,13 @@ import socketIOClient from "socket.io-client";
 import CardUI from "./CardUI";
 import "./css/SearchBar.css";
 import "bulma";
-import "./css/loader.css"
+import "./css/loader.css";
 import "./css/TwitterStremListView.css";
 
 class TwitterStreamListView extends React.Component {
   constructor(props) {
     super(props);
     this.state = { items: [], searchTerm: "WestBengal" };
-
     this.handleChange = this.handleChange.bind(this);
     this.serachTweets = this.serachTweets.bind(this);
   }
@@ -20,9 +19,9 @@ class TwitterStreamListView extends React.Component {
     this.setState({ searchTerm: event.target.value });
   }
 
+  //Function to search tweets
   serachTweets() {
     let term = this.state.searchTerm;
-    console.log("Here 1" + term);
     fetch("/search", {
       method: "POST",
       headers: {
@@ -33,23 +32,22 @@ class TwitterStreamListView extends React.Component {
   }
 
   componentDidMount() {
-    document.getElementById('p_bar').style.display='block';
-
+    document.getElementById("p_bar").style.display = "block";
 
     const socket = socketIOClient("http://localhost:3000/");
 
+    //Establish Connect to Sever
     socket.on("connect", () => {
       console.log("Socket Connected");
       socket.on("tweets", data => {
         console.info(data);
         let newList = [data].concat(this.state.items.slice(0, 15));
         this.setState({ items: newList });
-        document.getElementById('p_bar').style.display='none';
-
+        document.getElementById("p_bar").style.display = "none";
       });
     });
     socket.on("disconnect", () => {
-      document.getElementById('p_bar').style.display='none';
+      document.getElementById("p_bar").style.display = "none";
       socket.off("tweets");
       socket.removeAllListeners("tweets");
       console.log("Socket Disconnected");
@@ -72,38 +70,34 @@ class TwitterStreamListView extends React.Component {
     );
 
     return (
-      <div id="top-cont" style={{backgroundColor: "#4C4B4B"}}>
+      <div id="top-cont" style={{ backgroundColor: "#4C4B4B" }}>
         <div className="center">
-
-
-
-        <div id="p_bar" class="loading">Loading&#00000;</div>
-        <h1 className="top-text">Welcome to Twitter Stream</h1>
-        <section className="section">
-              <form className="form" id="addItemForm">
-                <input
-                  type="text"
-                  className="input"
-                  id="addInput"
-                  placeholder="Enter any hashtag to stream"
-                  onChange={this.handleChange}
-                />
-                <div className="btn-search" >
+          <div id="p_bar" class="loading">
+            Loading&#00000;
+          </div>
+          <h1 className="top-text">Welcome to Twitter Stream</h1>
+          <section className="section">
+            <form className="form" id="addItemForm">
+              <input
+                type="text"
+                className="input"
+                id="addInput"
+                placeholder="Enter any hashtag to stream"
+                onChange={this.handleChange}
+              />
+              <div className="btn-search">
                 <button
-                className="button is-info"
-                onClick={this.serachTweets}
-                type="button"
-                  >
-                Search
-              </button>
-                </div>
-               
-              </form>
-            </section>
+                  className="button is-info"
+                  onClick={this.serachTweets}
+                  type="button"
+                >
+                  Search
+                </button>
+              </div>
+            </form>
+          </section>
           <div className="container">
-
             <hr />
-            
           </div>
         </div>
         <div>
@@ -114,9 +108,5 @@ class TwitterStreamListView extends React.Component {
     );
   }
 }
-
-const controlStyle = {
-  marginRight: "5px"
-};
 
 export default TwitterStreamListView;

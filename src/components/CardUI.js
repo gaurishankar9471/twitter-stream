@@ -7,8 +7,9 @@ class CardUI extends React.Component {
     let data = this.props.data;
 
     return (
-     
       <div>
+        {/* Card UI Componets for individual tweets START*/}
+
         <article className="article">
           <img
             src={data.user.profile_image_url}
@@ -26,18 +27,18 @@ class CardUI extends React.Component {
           <div className="article__title">
             {new Date(data.created_at).toLocaleTimeString()}
           </div>
-              <div className="btn-search" >
-                <button
-                className="button is-info"
-                onClick={this.serachTweets}
-                type="button"
-                  >
-                Anaylize Tweet
-              </button>
-                </div>
-                <TwitterAnalysis data={data}> </TwitterAnalysis>
-
+          <div className="btn-search">
+            <button
+              className="button is-info"
+              onClick={this.serachTweets}
+              type="button"
+            >
+              Anaylize Tweet
+            </button>
+          </div>
+          <TwitterAnalysis data={data}> </TwitterAnalysis>
         </article>
+        {/* Card UI Componets for individual tweets END*/}
       </div>
     );
   }

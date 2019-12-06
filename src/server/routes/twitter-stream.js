@@ -1,6 +1,5 @@
 const Twitter = require("twitter");
 
-
 module.exports = (app, io) => {
   //Twitter API KEY Setup
 
@@ -11,8 +10,7 @@ module.exports = (app, io) => {
     access_token_secret: "5LF5iWS3cZRU37nKYoGeZ63Y2hCkoK8LyiSPdtuZJuGoV"
   });
 
-  app.locals.searchTerm = "java"; //Defaul search item for tweet stream
-  app.locals.showRetweets = false; //Default Retweet
+  app.locals.searchTerm = "java"; //Defaul item for tweet stream
 
   let socketConnection;
   let twitterStream;
@@ -26,7 +24,6 @@ module.exports = (app, io) => {
       stream => {
         stream.on("data", tweet => {
           updateData(tweet);
-          console.log(tweet.text);
         });
 
         stream.on("error", error => {
@@ -45,7 +42,6 @@ module.exports = (app, io) => {
   //@access - PUBLIC
   app.post("/search", (req, res) => {
     let term = req.body.term;
-    console.log("Here is post" + term);
     app.locals.searchTerm = term;
     twitterStream.destroy();
     stream();

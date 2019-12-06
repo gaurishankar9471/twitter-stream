@@ -1,20 +1,21 @@
+/*  CSS for TwitterAnalysis Component */
 .word-cloud {
-    color: white;
-    padding: 20px 20px 20px;
+  color: white;
+  padding: 20px 20px 20px;
 }
 
-.word-cloud-comp{
-    color: white;
-    background: white;
-    padding: 200px 200px 20px;
+.word-cloud-comp {
+  color: white;
+  background: white;
+  padding: 200px 200px 20px;
 }
 .tweet-senti {
-    color: white;
-    padding: 30px 30px 30px;
+  color: white;
+  padding: 30px 30px 30px;
 }
-.d3-chart{
-    padding: 20px 20px 20px;
+.d3-chart {
+  padding: 20px 20px 20px;
 }
-.d3-pie{
-    padding: 20px 20px 20px;
+.d3-pie {
+  padding: 20px 20px 20px;
 }
